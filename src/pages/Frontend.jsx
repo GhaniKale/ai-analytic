@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../assets/frontend.css';
+import { getFallbackReply } from '../chatbot/fallbackReply';
 
 export default function Frontend() {
   const [chatOpen, setChatOpen] = useState(false);
@@ -66,27 +67,37 @@ export default function Frontend() {
     setIsTyping(true);
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-api-key': 'GANTI_DENGAN_API_KEY_KAMU',
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-3-5-sonnet-20240620',
-          max_tokens: 1000,
-          system: "Kamu adalah Asisten Customer Service untuk bisnis HNI (Herbal Nusantara Indonesia). Tugas utamamu adalah melayani pelanggan sebagai konsultan kesehatan yang ramah, memberikan solusi produk herbal halal dan thayyib, serta mengarahkan ke pembelian \"Program Pro Master\" atau melalui tautan resmi.",
-          messages: newHistory.map(m => ({ role: m.role, content: m.content }))
-        })
-      });
-      const data = await res.json();
-      const reply = data.content?.[0]?.text || 'Maaf, saya tidak bisa menjawab sekarang.';
+      const chatEndpoint = import.meta.env.VITE_CHAT_ENDPOINT;
+
+      let reply = '';
+
+      if (chatEndpoint) {
+        const res = await fetch(chatEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: msg,
+            history: newHistory.map((m) => ({ role: m.role, content: m.content })),
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          reply = data?.reply ?? '';
+        }
+      }
+
+      if (!reply) {
+        await new Promise((r) => setTimeout(r, 700));
+        reply = getFallbackReply(msg);
+      }
+
       setIsTyping(false);
       setChatHistory(prev => [...prev, { role: 'assistant', content: reply, time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) }]);
-    } catch(e) {
+    } catch {
       setIsTyping(false);
-      setChatHistory(prev => [...prev, { role: 'assistant', content: 'Maaf, koneksi bermasalah. Silakan coba lagi.', time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) }]);
+      const reply = getFallbackReply(msg);
+      setChatHistory(prev => [...prev, { role: 'assistant', content: reply, time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) }]);
     }
   };
 

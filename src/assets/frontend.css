@@ -352,7 +352,7 @@ body.frontend-body {
 .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 400px; }
 .chat-messages::-webkit-scrollbar { width: 4px; }
 .chat-messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
-.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
+.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
 .msg.bot { background: var(--krem); color: var(--coklat); border-radius: 4px 16px 16px 16px; align-self: flex-start; }
 .msg.user { color: white; border-radius: 16px 4px 16px 16px; align-self: flex-end; }
 .msg.user.hijau { background: var(--hijau); }

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HNI Business Center – Sehat Ala Rasul</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --hijau: #1a6b3c;
+  --hijau-muda: #2d9b5a;
+  --hijau-terang: #4cc97a;
+  --emas: #c9922a;
+  --emas-muda: #f0c060;
+  --krem: #faf7f0;
+  --krem-gelap: #f0ead8;
+  --coklat: #3d2b1f;
+  --putih: #ffffff;
+  --abu: #6b7280;
+  --shadow: 0 4px 24px rgba(26,107,60,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--krem);
+  color: var(--coklat);
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250,247,240,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,146,42,0.2);
+  padding: 0 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: 'Amiri', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--hijau);
+  letter-spacing: 0.5px;
+}
+.nav-logo span { color: var(--emas); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500;
+  color: var(--coklat); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--hijau); }
+.nav-cta {
+  background: var(--hijau);
+  color: var(--putih) !important;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--hijau-muda) !important; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding: 80px 5% 60px;
+  display: flex; align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -100px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(76,201,122,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(201,146,42,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-content { max-width: 560px; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(26,107,60,0.08);
+  border: 1px solid rgba(26,107,60,0.2);
+  padding: 6px 16px; border-radius: 50px;
+  font-size: 13px; font-weight: 500; color: var(--hijau);
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before { content: '☽'; font-size: 14px; }
+.hero-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.2;
+  color: var(--coklat);
+  margin-bottom: 16px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+.hero-title .emas { color: var(--emas); }
+.hero-title .hijau { color: var(--hijau); }
+.hero-sub {
+  font-size: 17px; line-height: 1.7; color: var(--abu);
+  margin-bottom: 36px;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+.hero-buttons {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+.btn-primary {
+  background: var(--hijau);
+  color: var(--putih);
+  padding: 14px 28px; border-radius: 50px;
+  font-size: 15px; font-weight: 600;
+  border: none; cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(26,107,60,0.25);
+}
+.btn-primary:hover { background: var(--hijau-muda); transform: translateY(-2px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--hijau);
+  padding: 14px 28px; border-radius: 50px;
+  font-size: 15px; font-weight: 600;
+  border: 2px solid var(--hijau);
+  cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: rgba(26,107,60,0.06); }
+.hero-image {
+  position: absolute; right: 5%; top: 50%;
+  transform: translateY(-50%);
+  width: 45%; max-width: 520px;
+  animation: fadeLeft 0.8s ease 0.2s both;
+}
+.hero-card {
+  background: var(--putih);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(201,146,42,0.15);
+}
+.hero-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-top: 20px;
+}
+.stat-item {
+  background: var(--krem);
+  border-radius: 16px; padding: 16px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Amiri', serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--hijau);
+}
+.stat-label { font-size: 12px; color: var(--abu); margin-top: 4px; }
+
+/* PRODUK */
+.section { padding: 80px 5%; }
+.section-header { text-align: center; margin-bottom: 56px; }
+.section-badge {
+  display: inline-block;
+  background: rgba(201,146,42,0.1);
+  color: var(--emas);
+  border: 1px solid rgba(201,146,42,0.25);
+  padding: 4px 16px; border-radius: 50px;
+  font-size: 13px; font-weight: 500;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--coklat); margin-bottom: 12px;
+}
+.section-sub { font-size: 16px; color: var(--abu); max-width: 480px; margin: 0 auto; }
+
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.produk-card {
+  background: var(--putih);
+  border-radius: 20px; padding: 28px;
+  border: 1px solid rgba(201,146,42,0.1);
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.produk-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hijau), var(--hijau-terang));
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.produk-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.produk-card:hover::before { transform: scaleX(1); }
+.produk-icon {
+  width: 52px; height: 52px;
+  background: rgba(26,107,60,0.08);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 16px;
+}
+.produk-nama {
+  font-size: 16px; font-weight: 600;
+  color: var(--coklat); margin-bottom: 8px;
+}
+.produk-manfaat { font-size: 14px; color: var(--abu); line-height: 1.6; }
+.produk-tag {
+  display: inline-block;
+  background: rgba(26,107,60,0.08);
+  color: var(--hijau);
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 500;
+  margin-top: 14px;
+}
+
+/* PROGRAM PRO MASTER */
+.program-section {
+  background: var(--hijau);
+  padding: 80px 5%;
+  position: relative; overflow: hidden;
+}
+.program-section::before {
+  content: '';
+  position: absolute; top: -50%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.program-inner {
+  max-width: 800px; margin: 0 auto; text-align: center;
+}
+.program-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--putih); margin-bottom: 16px;
+}
+.program-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 40px; }
+.program-paket {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px; padding: 36px;
+  display: flex; align-items: center; gap: 32px;
+  flex-wrap: wrap; justify-content: center;
+  margin-bottom: 32px;
+}
+.paket-item {
+  text-align: center;
+}
+.paket-icon { font-size: 32px; margin-bottom: 8px; }
+.paket-nama { font-size: 15px; font-weight: 600; color: var(--putih); }
+.paket-plus {
+  font-size: 28px; color: rgba(255,255,255,0.4);
+  font-weight: 300;
+}
+.btn-emas {
+  background: var(--emas);
+  color: var(--putih);
+  padding: 16px 36px; border-radius: 50px;
+  font-size: 16px; font-weight: 700;
+  border: none; cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(201,146,42,0.4);
+}
+.btn-emas:hover { background: #d4a040; transform: translateY(-2px); }
+
+/* REKRUTMEN */
+.rekrut-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center;
+}
+.rekrut-steps { display: flex; flex-direction: column; gap: 24px; }
+.rekrut-step {
+  display: flex; gap: 20px; align-items: flex-start;
+}
+.step-num {
+  width: 40px; height: 40px;
+  background: var(--hijau);
+  color: var(--putih);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700;
+  flex-shrink: 0;
+}
+.step-content h4 { font-size: 16px; font-weight: 600; color: var(--coklat); margin-bottom: 6px; }
+.step-content p { font-size: 14px; color: var(--abu); line-height: 1.6; }
+
+.form-card {
+  background: var(--putih);
+  border-radius: 24px; padding: 36px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(201,146,42,0.12);
+}
+.form-title {
+  font-family: 'Amiri', serif;
+  font-size: 22px; color: var(--coklat);
+  margin-bottom: 8px;
+}
+.form-sub { font-size: 14px; color: var(--abu); margin-bottom: 28px; }
+.form-group { margin-bottom: 20px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--coklat); margin-bottom: 8px; display: block; }
+.form-input {
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 12px; font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--krem);
+  color: var(--coklat);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-input:focus { border-color: var(--hijau); background: var(--putih); }
+.form-select {
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 12px; font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--krem); color: var(--coklat);
+  outline: none; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.form-select:focus { border-color: var(--hijau); }
+
+/* CHATBOT */
+.chat-fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  width: 60px; height: 60px;
+  background: var(--hijau);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(26,107,60,0.35);
+  transition: all 0.3s;
+  border: none;
+}
+.chat-fab:hover { transform: scale(1.08); background: var(--hijau-muda); }
+.chat-fab svg { width: 28px; height: 28px; fill: white; }
+.chat-notif {
+  position: absolute; top: -4px; right: -4px;
+  width: 18px; height: 18px;
+  background: var(--emas);
+  border-radius: 50%;
+  border: 2px solid var(--krem);
+  font-size: 11px; font-weight: 700; color: white;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.chat-window {
+  position: fixed; bottom: 100px; right: 28px; z-index: 998;
+  width: 360px; max-height: 520px;
+  background: var(--putih);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  opacity: 0; pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.chat-window.open {
+  transform: scale(1) translateY(0);
+  opacity: 1; pointer-events: all;
+}
+.chat-header {
+  background: var(--hijau);
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-avatar {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.chat-info h4 { font-size: 14px; font-weight: 600; color: white; }
+.chat-info p { font-size: 12px; color: rgba(255,255,255,0.75); }
+.chat-status {
+  width: 8px; height: 8px;
+  background: var(--hijau-terang);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  max-height: 340px;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
+.msg {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px; line-height: 1.5;
+}
+.msg.bot {
+  background: var(--krem);
+  color: var(--coklat);
+  border-radius: 4px 16px 16px 16px;
+  align-self: flex-start;
+}
+.msg.user {
+  background: var(--hijau);
+  color: white;
+  border-radius: 16px 4px 16px 16px;
+  align-self: flex-end;
+}
+.msg-time { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+.typing {
+  display: flex; gap: 4px; align-items: center;
+  padding: 10px 14px;
+  background: var(--krem); border-radius: 4px 16px 16px 16px;
+  align-self: flex-start; width: fit-content;
+}
+.typing span {
+  width: 6px; height: 6px;
+  background: var(--abu); border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+.chat-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  display: flex; gap: 10px; align-items: center;
+}
+.chat-input {
+  flex: 1; padding: 10px 14px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 50px; font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  outline: none; background: var(--krem);
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--hijau); background: white; }
+.chat-send {
+  width: 38px; height: 38px;
+  background: var(--hijau);
+  border: none; border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.chat-send:hover { background: var(--hijau-muda); }
+.chat-send svg { width: 16px; height: 16px; fill: white; }
+.quick-replies {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 8px 16px 0;
+}
+.quick-btn {
+  background: rgba(26,107,60,0.08);
+  color: var(--hijau);
+  border: 1px solid rgba(26,107,60,0.2);
+  padding: 6px 12px; border-radius: 50px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.quick-btn:hover { background: var(--hijau); color: white; }
+
+/* FOOTER */
+footer {
+  background: var(--coklat);
+  color: rgba(255,255,255,0.7);
+  padding: 48px 5% 32px;
+}
+.footer-inner {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px; margin-bottom: 40px;
+}
+.footer-logo {
+  font-family: 'Amiri', serif;
+  font-size: 24px; font-weight: 700;
+  color: white; margin-bottom: 12px;
+}
+.footer-logo span { color: var(--emas-muda); }
+.footer-desc { font-size: 14px; line-height: 1.7; }
+.footer-title { font-size: 14px; font-weight: 600; color: white; margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--emas-muda); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(30px) translateY(-50%); }
+  to { opacity: 1; transform: translateX(0) translateY(-50%); }
+}
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .hero-image { display: none; }
+  .hero-content { max-width: 100%; }
+  .rekrut-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">HNI <span>Business</span></div>
+  <ul class="nav-links">
+    <li><a href="#produk">Produk</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#bergabung">Bergabung</a></li>
+    <li><a href="#bergabung" class="nav-cta">Daftar Sekarang</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Produk Halal & Thayyib</div>
+    <h1 class="hero-title">
+      Sehat <span class="emas">Ala Rasul</span>,<br>
+      Berkah <span class="hijau">Bersama HNI</span>
+    </h1>
+    <p class="hero-sub">
+      Produk herbal halal berkualitas premium berbasis Thibbun Nabawi. 
+      Solusi kesehatan keluarga yang telah dipercaya jutaan orang Indonesia.
+    </p>
+    <div class="hero-buttons">
+      <a href="#produk" class="btn-primary">Lihat Produk</a>
+      <a href="#bergabung" class="btn-secondary">Jadi Distributor</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-card">
+      <div style="font-family:'Amiri',serif;font-size:15px;color:var(--hijau);margin-bottom:16px;font-style:italic;">
+        "وَإِن تَعُدُّوا نِعْمَةَ اللَّهِ لَا تُحْصُوهَا"
+      </div>
+      <div style="font-size:13px;color:var(--abu);margin-bottom:20px;">
+        "Dan jika kamu menghitung nikmat Allah, niscaya kamu tidak akan mampu menghitungnya." — QS. Ibrahim: 34
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">500K+</div>
+          <div class="stat-label">Member aktif</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Produk halal</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Tahun berdiri</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">BPOM</div>
+          <div class="stat-label">Tersertifikasi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUK -->
+<section class="section" id="produk">
+  <div class="section-header reveal">
+    <div class="section-badge">Produk Unggulan</div>
+    <h2 class="section-title">Herbal Pilihan untuk Keluarga</h2>
+    <p class="section-sub">Formulasi alami berbasis sunnah Nabi untuk menjaga kesehatan Anda</p>
+  </div>
+  <div class="produk-grid">
+    <div class="produk-card reveal" onclick="sendChatMessage('Saya ingin tahu lebih lanjut tentang Kapsul Gamat')">
+      <div class="produk-icon">🦀</div>
+      <div class="produk-nama">Kapsul Gamat</div>
+      <div class="produk-manfaat">Meredakan nyeri sendi, pengapuran lutut, dan mempercepat penyembuhan luka. Kaya kolagen tipe II dan omega-3.</div>
+      <div class="produk-tag">Sendi & Tulang</div>
+    </div>
+    <div class="produk-card reveal" onclick="sendChatMessage('Ceritakan tentang Madu Multiflora HNI')">
+      <div class="produk-icon">🍯</div>
+      <div class="produk-nama">Madu Multiflora</div>
+      <div class="produk-manfaat">Menjaga daya tahan tubuh, sumber energi alami, dan melindungi dari radikal bebas. 100% madu murni.</div>
+      <div class="produk-tag">Imunitas</div>
+    </div>
+    <div class="produk-card reveal" onclick="sendChatMessage('Apa manfaat Minyak Herba Sinergi?')">
+      <div class="produk-icon">💧</div>
+      <div class="produk-nama">Minyak Herba Sinergi</div>
+      <div class="produk-manfaat">Minyak P3K keluarga untuk pegal linu, masuk angin, memar, dan gigitan serangga. Praktis dibawa kemana saja.</div>
+      <div class="produk-tag">P3K Keluarga</div>
+    </div>
+    <div class="produk-card reveal" onclick="sendChatMessage('Saya mau tahu tentang Kopi Sevel Stamina')">
+      <div class="produk-icon">☕</div>
+      <div class="produk-nama">Kopi Sevel Stamina</div>
+      <div class="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
+      <div class="produk-tag">Stamina & Fokus</div>
+    </div>
+    <div class="produk-card reveal" onclick="sendChatMessage('Apa itu EGM susu kambing HNI?')">
+      <div class="produk-icon">🥛</div>
+      <div class="produk-nama">EGM Susu Kambing</div>
+      <div class="produk-manfaat">Nutrisi lengkap untuk tulang dan sendi. Sangat baik dikombinasikan dengan Kapsul Gamat untuk hasil optimal.</div>
+      <div class="produk-tag">Nutrisi Harian</div>
+    </div>
+    <div class="produk-card reveal" onclick="sendChatMessage('Apakah HNI punya produk lain selain yang disebutkan?')">
+      <div class="produk-icon">🌿</div>
+      <div class="produk-nama">& 95+ Produk Lainnya</div>
+      <div class="produk-manfaat">Spirulina, Bilberry, PGH, Sabun Herbal, Kosmetik Halal, dan masih banyak lagi. Semua halal bersertifikat MUI.</div>
+      <div class="produk-tag">Lihat Semua</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM PRO MASTER -->
+<section class="program-section" id="program">
+  <div class="program-inner">
+    <div class="section-badge" style="background:rgba(255,255,255,0.15);color:var(--emas-muda);border-color:rgba(255,255,255,0.2);">Program Unggulan</div>
+    <h2 class="program-title">Program Pro Master</h2>
+    <p class="program-sub">Paket lengkap 1 bulan untuk regenerasi sel tubuh secara maksimal</p>
+    <div class="program-paket">
+      <div class="paket-item"><div class="paket-icon">☕</div><div class="paket-nama">Kopi Sevel</div></div>
+      <div class="paket-plus">+</div>
+      <div class="paket-item"><div class="paket-icon">🦀</div><div class="paket-nama">Kapsul Gamat</div></div>
+      <div class="paket-plus">+</div>
+      <div class="paket-item"><div class="paket-icon">🍯</div><div class="paket-nama">Madu Multiflora</div></div>
+      <div class="paket-plus">+</div>
+      <div class="paket-item"><div class="paket-icon">💧</div><div class="paket-nama">MHS</div></div>
+    </div>
+    <a href="https://s.hni.id/7JXVILG" target="_blank" class="btn-emas">Pesan Program Pro Master →</a>
+  </div>
+</section>
+
+<!-- BERGABUNG / REKRUTMEN -->
+<section class="section" id="bergabung">
+  <div class="section-header reveal">
+    <div class="section-badge">Peluang Bisnis</div>
+    <h2 class="section-title">Bangun Jaringan, Raih Berkah</h2>
+    <p class="section-sub">Bergabunglah sebagai distributor HNI dan mulai perjalanan bisnis halal Anda</p>
+  </div>
+  <div class="rekrut-grid">
+    <div class="rekrut-steps reveal">
+      <div class="rekrut-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Daftar sebagai Member</h4>
+          <p>Isi formulir pendaftaran dan lengkapi data diri Anda. Proses cepat dan mudah.</p>
+        </div>
+      </div>
+      <div class="rekrut-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Ikuti Training Produk</h4>
+          <p>Pelajari semua produk HNI dan cara memasarkannya melalui modul edukasi interaktif.</p>
+        </div>
+      </div>
+      <div class="rekrut-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Mulai Jualan & Rekrut</h4>
+          <p>Pasarkan produk ke konsumen dan ajak orang lain bergabung di jaringan Anda.</p>
+        </div>
+      </div>
+      <div class="rekrut-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Nikmati Komisi & Bonus</h4>
+          <p>Dapatkan komisi penjualan, bonus jaringan, dan berbagai reward menarik dari HNI.</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-card reveal">
+      <div class="form-title">Daftar Jadi Member</div>
+      <div class="form-sub">Gratis! Mulai perjalanan bisnis halal Anda hari ini</div>
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" class="form-input" placeholder="Masukkan nama lengkap Anda" id="reg-nama">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nomor WhatsApp</label>
+        <input type="tel" class="form-input" placeholder="08xxxxxxxxxx" id="reg-wa">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kota/Kabupaten</label>
+        <input type="text" class="form-input" placeholder="Contoh: Surabaya" id="reg-kota">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Minat Utama</label>
+        <select class="form-select" id="reg-minat">
+          <option value="">Pilih minat Anda</option>
+          <option value="produk">Beli produk untuk keluarga</option>
+          <option value="bisnis">Bisnis & cari penghasilan tambahan</option>
+          <option value="keduanya">Keduanya</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="daftarMember()">
+        Daftar Sekarang →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">HNI <span>Business</span></div>
+      <p class="footer-desc">PT Halal Network International – membangun ekosistem bisnis halal yang memberdayakan umat melalui produk herbal berkualitas berbasis Thibbun Nabawi.</p>
+    </div>
+    <div>
+      <div class="footer-title">Produk</div>
+      <ul class="footer-links">
+        <li><a href="#">Kapsul Gamat</a></li>
+        <li><a href="#">Madu Multiflora</a></li>
+        <li><a href="#">Kopi Sevel</a></li>
+        <li><a href="#">Minyak Herba Sinergi</a></li>
+        <li><a href="#">Semua Produk</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Informasi</div>
+      <ul class="footer-links">
+        <li><a href="#">Tentang HNI</a></li>
+        <li><a href="#">Cara Order</a></li>
+        <li><a href="#">Jadi Distributor</a></li>
+        <li><a href="#">Kontak Kami</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 HNI Business Center. Semua hak dilindungi.</span>
+    <span>Produk bersertifikat BPOM & MUI</span>
+  </div>
+</footer>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" onclick="toggleChat()" id="chat-fab">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  <div class="chat-notif">1</div>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🌿</div>
+    <div class="chat-info">
+      <h4>Konsultan HNI</h4>
+      <p><span class="chat-status"></span>Online sekarang</p>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">
+      Assalamu'alaikum! 👋 Saya konsultan kesehatan HNI. Ada yang bisa saya bantu hari ini?
+      <div class="msg-time">Baru saja</div>
+    </div>
+  </div>
+  <div class="quick-replies" id="quick-replies">
+    <button class="quick-btn" onclick="sendChatMessage('Saya punya masalah nyeri lutut')">Nyeri lutut</button>
+    <button class="quick-btn" onclick="sendChatMessage('Cara daftar jadi member HNI')">Cara daftar</button>
+    <button class="quick-btn" onclick="sendChatMessage('Berapa harga produk HNI?')">Info harga</button>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chat-input" placeholder="Ketik pesan..." onkeypress="if(event.key==='Enter')kirimChat()">
+    <button class="chat-send" onclick="kirimChat()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const OPENROUTER_API_KEY = 'GANTI_DENGAN_API_KEY_KAMU';
+const SYSTEM_PROMPT = `Kamu adalah Asisten Customer Service untuk bisnis HNI (Herbal Nusantara Indonesia). Tugas utamamu adalah melayani pelanggan sebagai konsultan kesehatan yang ramah, memberikan solusi produk herbal halal dan thayyib, serta mengarahkan ke pembelian "Program Pro Master" atau melalui tautan resmi.
+
+Aturan:
+1. Gaya bicara ramah, sopan, natural, penuh empati, bahasa Indonesia sehari-hari (sapa dengan Kak/Bapak/Ibu).
+2. Jawab MAKSIMAL 4 KALIMAT agar ringkas dan nyaman dibaca.
+3. Gunakan "Strategi Jodoh" — cocokkan keluhan dengan produk yang paling tepat.
+
+Produk HNI:
+- Kapsul Gamat: nyeri sendi, pengapuran lutut, penyembuhan luka. Sinergi terbaik dengan EGM.
+- Madu Multiflora: daya tahan tubuh, energi, pencernaan.
+- Minyak Herba Sinergi (MHS): pegal linu, masuk angin, memar (obat luar).
+- Kopi Sevel Stamina: energi, stamina, fokus, stevia (tanpa gula buatan).
+- EGM Susu Kambing: nutrisi tulang dan sendi.
+- Spirulina: antioksidan, protein tinggi.
+- Bilberry: kesehatan mata.
+- PGH Pasta Gigi Herbal: bebas fluoride.
+
+Program Pro Master: Sevel + Gamat + Madu + MHS, untuk 1 bulan. Link order: https://s.hni.id/7JXVILG
+
+Cara closing: "Agar hasil maksimal, saya sarankan Program Pro Master 1 bulan. Langsung amankan di sini: https://s.hni.id/7JXVILG"`;
+
+let chatHistory = [];
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-window').classList.toggle('open', chatOpen);
+  document.querySelector('.chat-notif').style.display = 'none';
+}
+
+function sendChatMessage(text) {
+  document.getElementById('chat-input').value = text;
+  kirimChat();
+  if (!chatOpen) toggleChat();
+}
+
+async function kirimChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  document.getElementById('quick-replies').style.display = 'none';
+  tambahPesan('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+
+  const typing = document.createElement('div');
+  typing.className = 'typing'; typing.id = 'typing';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  document.getElementById('chat-messages').appendChild(typing);
+  scrollChat();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Maaf, saya tidak bisa menjawab sekarang.';
+    chatHistory.push({ role: 'assistant', content: reply });
+    document.getElementById('typing')?.remove();
+    tambahPesan('bot', reply);
+  } catch(e) {
+    document.getElementById('typing')?.remove();
+    tambahPesan('bot', 'Maaf, koneksi bermasalah. Silakan coba lagi.');
+  }
+}
+
+function tambahPesan(role, text) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+  div.innerHTML = `${text}<div class="msg-time">${now}</div>`;
+  container.appendChild(div);
+  scrollChat();
+}
+
+function scrollChat() {
+  const c = document.getElementById('chat-messages');
+  c.scrollTop = c.scrollHeight;
+}
+
+function daftarMember() {
+  const nama = document.getElementById('reg-nama').value;
+  const wa = document.getElementById('reg-wa').value;
+  const kota = document.getElementById('reg-kota').value;
+  const minat = document.getElementById('reg-minat').value;
+  if (!nama || !wa || !kota || !minat) {
+    alert('Mohon lengkapi semua data terlebih dahulu!');
+    return;
+  }
+  const msg = `Halo, saya ${nama} dari ${kota}. No WA: ${wa}. Saya tertarik untuk: ${minat}. Saya ingin bergabung sebagai member HNI.`;
+  const waLink = `https://wa.me/62${wa.replace(/^0/, '')}?text=${encodeURIComponent(msg)}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardLayout from './components/layout/DashboardLayout';
+import Frontend from './pages/Frontend';
 import Login from './pages/Login';
 import ExecutiveDashboard from './pages/ExecutiveDashboard';
 import EmployeePerformance from './pages/EmployeePerformance';
@@ -12,10 +13,10 @@ import SystemSettings from './pages/SystemSettings';
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Frontend />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<ExecutiveDashboard />} />
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<ExecutiveDashboard />} />
         <Route path="employees" element={<EmployeePerformance />} />
         <Route path="kpi-analytics" element={<KPIAnalytics />} />
         <Route path="finance" element={<FinancialAnalytics />} />
@@ -23,7 +24,7 @@ function App() {
         <Route path="tasks" element={<ManagerialTasks />} />
         <Route path="settings" element={<SystemSettings />} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

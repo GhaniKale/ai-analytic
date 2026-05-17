@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../assets/frontend.css';
 import { getFallbackReply } from '../chatbot/fallbackReply';
 
@@ -120,10 +121,10 @@ export default function Frontend() {
       <nav className="frontend-nav">
         <div className="nav-logo">HNI <span>Business</span></div>
         <ul className="nav-links">
-          <li><a href="#produk">Produk</a></li>
-          <li><a href="#program">Program</a></li>
-          <li><a href="#bergabung">Bergabung</a></li>
-          <li><a href="#bergabung" className="nav-cta">Daftar Sekarang</a></li>
+          <li><Link to="/edukasi">Edukasi</Link></li>
+          <li><Link to="/rekrutmen">Rekrutmen</Link></li>
+          <li><Link to="/selling">Selling</Link></li>
+          <li><Link to="/rekrutmen" className="nav-cta">Daftar Sekarang</Link></li>
         </ul>
       </nav>
 

@@ -1,9 +1,16 @@
-import { Search, Bell, HelpCircle } from 'lucide-react';
+import { Menu, Search, Bell, HelpCircle } from 'lucide-react';
 
-const Header = () => {
+const Header = ({ onOpenSidebar }) => {
   return (
     <header className="sticky top-0 w-full z-40 bg-surface/60 backdrop-blur-lg border-b border-white/5 flex justify-between items-center px-xl h-16">
       <div className="flex items-center gap-lg flex-1">
+        <button
+          type="button"
+          onClick={onOpenSidebar}
+          className="p-3 rounded-full bg-white/5 text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-colors md:hidden"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
         <div className="relative w-full max-w-md group">
           <Search className="absolute left-md top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant group-focus-within:text-primary transition-colors" />
           <input

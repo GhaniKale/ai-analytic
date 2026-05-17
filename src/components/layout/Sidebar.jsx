@@ -1,32 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Rocket,
-  LayoutDashboard,
-  Users,
-  LineChart,
-  CircleDollarSign,
-  FileText,
-  ClipboardList,
-  Settings,
-  BarChart2
-} from 'lucide-react';
+import { Rocket, BarChart2 } from 'lucide-react';
+import { navItems } from '../../config/navigation';
 
-const Sidebar = () => {
+const Sidebar = ({ className = '', isMobile = false, onClose }) => {
   const location = useLocation();
   const path = location.pathname;
 
-  const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'Employees', icon: Users, path: '/employees' },
-    { name: 'KPI Analytics', icon: LineChart, path: '/kpi-analytics' },
-    { name: 'Finance', icon: CircleDollarSign, path: '/finance' },
-    { name: 'Reports', icon: FileText, path: '/reports' },
-    { name: 'Tasks', icon: ClipboardList, path: '/tasks' },
-    { name: 'Settings', icon: Settings, path: '/settings' },
-  ];
-
   return (
-    <aside className="w-64 h-screen fixed left-0 top-0 bg-surface/80 backdrop-blur-xl border-r border-white/10 shadow-2xl flex flex-col py-md px-md z-50">
+    <aside className={`w-72 h-screen bg-surface/90 backdrop-blur-xl border-r border-white/10 shadow-2xl flex flex-col py-md px-md z-50 ${className}`}>
       <div className="mb-xl px-sm">
         <div className="flex items-center gap-md">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
@@ -40,11 +21,12 @@ const Sidebar = () => {
       </div>
       <nav className="flex-1 space-y-base overflow-y-auto scrollbar-hide">
         {navItems.map((item) => {
-          const isActive = path === item.path || (path === '/' && item.path === '/dashboard');
+          const isActive = path === item.path;
           return (
             <Link
               key={item.name}
               to={item.path}
+              onClick={isMobile && onClose ? onClose : undefined}
               className={`flex items-center gap-md px-md py-sm rounded-lg transition-all duration-200 active:scale-95 ${
                 isActive
                   ? 'text-primary font-bold border-r-2 border-primary bg-white/5'

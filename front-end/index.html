@@ -45,6 +45,35 @@ nav {
   letter-spacing: 0.5px;
 }
 .nav-logo span { color: var(--emas); }
+.nav-toggle {
+  display: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 4px 0;
+  background: var(--coklat);
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a {
   font-size: 14px; font-weight: 500;
@@ -62,6 +91,55 @@ nav {
   transition: background 0.2s !important;
 }
 .nav-cta:hover { background: var(--hijau-muda) !important; }
+.mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 64px 0 0;
+  background: rgba(250,247,240,0.98);
+  backdrop-filter: blur(16px);
+  padding: 24px 5%;
+  z-index: 90;
+  overflow-y: auto;
+}
+.mobile-nav.open {
+  display: block;
+}
+.mobile-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.mobile-nav-links a {
+  color: var(--coklat);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mobile-nav-links a.nav-cta {
+  background: var(--hijau);
+  color: var(--putih) !important;
+  padding: 12px 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  width: fit-content;
+}
+.mobile-nav-overlay {
+  display: none;
+}
+.mobile-nav-overlay.open {
+  display: block;
+  position: fixed;
+  inset: 64px 0 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 85;
+}
+@media(max-width:900px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+}
 
 /* HERO */
 .hero {
@@ -538,6 +616,11 @@ footer {
 <!-- NAVBAR -->
 <nav>
   <div class="nav-logo">HNI <span>Business</span></div>
+  <button class="nav-toggle" id="navToggle" aria-label="Buka menu" type="button" onclick="toggleMobileNav()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
   <ul class="nav-links">
     <li><a href="#produk">Produk</a></li>
     <li><a href="#program">Program</a></li>
@@ -545,6 +628,15 @@ footer {
     <li><a href="#bergabung" class="nav-cta">Daftar Sekarang</a></li>
   </ul>
 </nav>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <ul class="mobile-nav-links">
+    <li><a href="#produk" onclick="closeMobileNav()">Produk</a></li>
+    <li><a href="#program" onclick="closeMobileNav()">Program</a></li>
+    <li><a href="#bergabung" onclick="closeMobileNav()">Bergabung</a></li>
+    <li><a href="#bergabung" class="nav-cta" onclick="closeMobileNav()">Daftar Sekarang</a></li>
+  </ul>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -820,6 +912,21 @@ Cara closing: "Agar hasil maksimal, saya sarankan Program Pro Master 1 bulan. La
 
 let chatHistory = [];
 let chatOpen = false;
+let mobileNavOpen = false;
+
+function toggleMobileNav() {
+  mobileNavOpen = !mobileNavOpen;
+  document.getElementById('mobileNav').classList.toggle('open', mobileNavOpen);
+  document.getElementById('mobileNavOverlay').classList.toggle('open', mobileNavOpen);
+  document.getElementById('navToggle').classList.toggle('open', mobileNavOpen);
+}
+
+function closeMobileNav() {
+  mobileNavOpen = false;
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('mobileNavOverlay').classList.remove('open');
+  document.getElementById('navToggle').classList.remove('open');
+}
 
 function toggleChat() {
   chatOpen = !chatOpen;

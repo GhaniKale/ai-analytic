@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import FrontendNavbar from '../components/FrontendNavbar';
 import '../assets/frontend.css';
+import { sendChat } from '../chatbot/chatApi';
 
 const products = [
   {
@@ -99,13 +100,14 @@ const Selling = () => {
   const [selectedProduct, setSelectedProduct] = useState('promaster');
   const [messages, setMessages] = useState([
     {
-      role: 'bot',
+      role: 'assistant',
       content: 'Assalamu’alaikum! 👋 Saya siap membantu Kakak menemukan produk HNI yang paling tepat. Ceritakan dulu, ada keluhan kesehatan apa yang ingin diatasi?',
       time: 'Baru saja',
     },
   ]);
   const [chatInput, setChatInput] = useState('');
   const [quickVisible, setQuickVisible] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     document.body.classList.add('frontend-body');
@@ -114,19 +116,46 @@ const Selling = () => {
 
   const product = products.find((item) => item.id === selectedProduct) || products[0];
 
-  const sendMessage = (text) => {
-    if (!text) return;
+  const sendMessage = async (text) => {
+    const trimmed = (text ?? '').toString().trim();
+    if (!trimmed || isTyping) return;
+
     setQuickVisible(false);
     const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-    setMessages((prev) => [...prev, { role: 'user', content: text, time: now }]);
+
+    const userMsg = { role: 'user', content: trimmed, time: now };
+    const nextMessages = [...messages, userMsg];
+
+    setMessages(nextMessages);
     setChatInput('');
-    setTimeout(() => {
-      setMessages((prev) => [...prev, {
-        role: 'bot',
-        content: `Berdasarkan informasi Anda, ${product.name} cocok untuk kebutuhan tersebut. Silakan klik tombol pesanan untuk lanjut order.`,
-        time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-      }]);
-    }, 700);
+    setIsTyping(true);
+
+    try {
+      const reply = await sendChat({
+        message: trimmed,
+        history: nextMessages.map((m) => ({ role: m.role, content: m.content })),
+      });
+
+      setIsTyping(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: reply,
+          time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
+    } catch {
+      setIsTyping(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Maaf, layanan AI sedang mengalami gangguan. Silakan coba lagi sebentar ya.',
+          time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
+    }
   };
 
   const orderProduct = () => {
@@ -136,14 +165,7 @@ const Selling = () => {
 
   return (
     <div>
-      <nav className="frontend-nav">
-        <div className="nav-logo">HNI <span>Selling</span></div>
-        <div className="nav-links">
-          <Link to="/" className="nav-back">← Beranda</Link>
-          <Link to="/edukasi" className="nav-back">Edukasi</Link>
-          <Link to="/rekrutmen" className="nav-back">Rekrutmen</Link>
-        </div>
-      </nav>
+      <FrontendNavbar title="Selling" />
       <div className="hero-selling">
         <div className="page-badge hijau">🛒 Konsultasi Produk</div>
         <h1 className="page-title">Temukan Produk yang Tepat</h1>
@@ -191,26 +213,31 @@ const Selling = () => {
           </div>
           <div className="chat-messages">
             {messages.map((msg, index) => (
-              <div key={index} className={`msg ${msg.role}`}>
+              <div key={index} className={`msg ${msg.role === 'user' ? 'user' : 'bot'}`}>
                 {msg.content}
                 <div className="msg-time">{msg.time}</div>
               </div>
             ))}
+            {isTyping && (
+              <div className="typing" aria-label="AI sedang mengetik">
+                <span></span><span></span><span></span>
+              </div>
+            )}
           </div>
           <div className="quick-replies" style={{ display: quickVisible ? 'flex' : 'none' }}>
             {quickQuestions.map((question) => (
-              <button key={question} type="button" className="quick-btn" onClick={() => sendMessage(question)}>{question}</button>
+              <button key={question} type="button" className="quick-btn hijau" onClick={() => sendMessage(question)}>{question}</button>
             ))}
           </div>
           <div className="chat-input-area">
             <input
               value={chatInput}
               onChange={(event) => setChatInput(event.target.value)}
-              className="chat-input"
+              className="chat-input hijau"
               placeholder="Ceritakan keluhan Anda..."
               onKeyDown={(event) => event.key === 'Enter' && sendMessage(chatInput)}
             />
-            <button type="button" className="chat-send" onClick={() => sendMessage(chatInput)}>
+            <button type="button" className="chat-send hijau" onClick={() => sendMessage(chatInput)}>
               <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
             </button>
           </div>

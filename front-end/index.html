@@ -285,18 +285,31 @@ nav {
 }
 .produk-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
 .produk-card:hover::before { transform: scaleX(1); }
-.produk-icon {
-  width: 52px; height: 52px;
-  background: rgba(26,107,60,0.08);
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; margin-bottom: 16px;
+.produk-image-container {
+  width: 100%; height: 200px;
+  background: rgba(250,247,240,0.5); border-radius: 16px;
+  margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
+  padding: 16px; box-sizing: border-box; overflow: hidden;
 }
+.produk-image {
+  width: 100%; height: 100%; object-fit: contain;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+}
+.produk-card:hover .produk-image { transform: scale(1.08); }
 .produk-nama {
-  font-size: 16px; font-weight: 600;
-  color: var(--coklat); margin-bottom: 8px;
+  font-size: 18px; font-weight: 700;
+  color: var(--coklat); margin-bottom: 8px; line-height: 1.3;
 }
 .produk-manfaat { font-size: 14px; color: var(--abu); line-height: 1.6; }
+.produk-harga { font-size: 16px; font-weight: 700; color: var(--hijau); margin-top: 14px; margin-bottom: 16px; }
+.produk-btn {
+  width: 100%; padding: 12px 0; border-radius: 50px; text-align: center;
+  background: rgba(26,107,60,0.06); color: var(--hijau);
+  font-size: 14px; font-weight: 600; border: 1px solid rgba(26,107,60,0.15);
+  transition: all 0.2s; cursor: pointer; display: block; text-decoration: none;
+}
+.produk-card:hover .produk-btn { background: var(--hijau); color: var(--putih); }
 .produk-tag {
   display: inline-block;
   background: rgba(26,107,60,0.08);
@@ -339,7 +352,8 @@ nav {
 .paket-item {
   text-align: center;
 }
-.paket-icon { font-size: 32px; margin-bottom: 8px; }
+.paket-image { height: 80px; width: 80px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); transition: transform 0.3s; }
+.paket-item:hover .paket-image { transform: scale(1.1); }
 .paket-nama { font-size: 15px; font-weight: 600; color: var(--putih); }
 .paket-plus {
   font-size: 28px; color: rgba(255,255,255,0.4);
@@ -694,40 +708,63 @@ footer {
   </div>
   <div class="produk-grid">
     <div class="produk-card reveal" onclick="sendChatMessage('Saya ingin tahu lebih lanjut tentang Kapsul Gamat')">
-      <div class="produk-icon">🦀</div>
+      <div class="produk-image-container">
+        <img src="/products/gamat.png" alt="Kapsul Gamat" class="produk-image" />
+      </div>
+      <div class="produk-tag">Sendi & Tulang</div>
       <div class="produk-nama">Kapsul Gamat</div>
       <div class="produk-manfaat">Meredakan nyeri sendi, pengapuran lutut, dan mempercepat penyembuhan luka. Kaya kolagen tipe II dan omega-3.</div>
-      <div class="produk-tag">Sendi & Tulang</div>
+      <div class="produk-harga">Rp 130.000</div>
+      <div class="produk-btn">Beli / Tanya Detail</div>
     </div>
     <div class="produk-card reveal" onclick="sendChatMessage('Ceritakan tentang Madu Multiflora HNI')">
-      <div class="produk-icon">🍯</div>
+      <div class="produk-image-container">
+        <img src="/products/madu.png" alt="Madu Multiflora" class="produk-image" />
+      </div>
+      <div class="produk-tag">Imunitas</div>
       <div class="produk-nama">Madu Multiflora</div>
       <div class="produk-manfaat">Menjaga daya tahan tubuh, sumber energi alami, dan melindungi dari radikal bebas. 100% madu murni.</div>
-      <div class="produk-tag">Imunitas</div>
+      <div class="produk-harga">Rp 100.000</div>
+      <div class="produk-btn">Beli / Tanya Detail</div>
     </div>
     <div class="produk-card reveal" onclick="sendChatMessage('Apa manfaat Minyak Herba Sinergi?')">
-      <div class="produk-icon">💧</div>
+      <div class="produk-image-container">
+        <img src="/products/mhs.png" alt="Minyak Herba Sinergi" class="produk-image" />
+      </div>
+      <div class="produk-tag">P3K Keluarga</div>
       <div class="produk-nama">Minyak Herba Sinergi</div>
       <div class="produk-manfaat">Minyak P3K keluarga untuk pegal linu, masuk angin, memar, dan gigitan serangga. Praktis dibawa kemana saja.</div>
-      <div class="produk-tag">P3K Keluarga</div>
+      <div class="produk-harga">Rp 45.000</div>
+      <div class="produk-btn">Beli / Tanya Detail</div>
     </div>
     <div class="produk-card reveal" onclick="sendChatMessage('Saya mau tahu tentang Kopi Sevel Stamina')">
-      <div class="produk-icon">☕</div>
-      <div class="produk-nama">Kopi Sevel Stamina</div>
-      <div class="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
+      <div class="produk-image-container">
+        <img src="/products/kopi.png" alt="Kopi Sevel Stamina" class="produk-image" />
+      </div>
       <div class="produk-tag">Stamina & Fokus</div>
+      <div class="produk-nama">Kopi 7 Elemen</div>
+      <div class="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
+      <div class="produk-harga">Rp 110.000</div>
+      <div class="produk-btn">Beli / Tanya Detail</div>
     </div>
     <div class="produk-card reveal" onclick="sendChatMessage('Apa itu EGM susu kambing HNI?')">
-      <div class="produk-icon">🥛</div>
-      <div class="produk-nama">EGM Susu Kambing</div>
-      <div class="produk-manfaat">Nutrisi lengkap untuk tulang dan sendi. Sangat baik dikombinasikan dengan Kapsul Gamat untuk hasil optimal.</div>
+      <div class="produk-image-container">
+        <img src="/products/egm.png" alt="EGM Susu Kambing" class="produk-image" />
+      </div>
       <div class="produk-tag">Nutrisi Harian</div>
+      <div class="produk-nama">Etta Goat Milk</div>
+      <div class="produk-manfaat">Nutrisi lengkap untuk tulang dan sendi. Sangat baik dikombinasikan dengan Kapsul Gamat untuk hasil optimal.</div>
+      <div class="produk-harga">Rp 75.000</div>
+      <div class="produk-btn">Beli / Tanya Detail</div>
     </div>
     <div class="produk-card reveal" onclick="sendChatMessage('Apakah HNI punya produk lain selain yang disebutkan?')">
-      <div class="produk-icon">🌿</div>
-      <div class="produk-nama">& 95+ Produk Lainnya</div>
-      <div class="produk-manfaat">Spirulina, Bilberry, PGH, Sabun Herbal, Kosmetik Halal, dan masih banyak lagi. Semua halal bersertifikat MUI.</div>
+      <div class="produk-image-container">
+        <img src="/products/other.png" alt="Produk Lainnya" class="produk-image" style="object-fit: contain; padding: 20px;" />
+      </div>
       <div class="produk-tag">Lihat Semua</div>
+      <div class="produk-nama">95+ Produk Lainnya</div>
+      <div class="produk-manfaat">Spirulina, Bilberry, PGH, Sabun Herbal, Kosmetik Halal, dan masih banyak lagi. Semua halal bersertifikat MUI.</div>
+      <div class="produk-btn" style="margin-top: 16px;">Jelajahi Katalog</div>
     </div>
   </div>
 </section>
@@ -739,13 +776,13 @@ footer {
     <h2 class="program-title">Program Pro Master</h2>
     <p class="program-sub">Paket lengkap 1 bulan untuk regenerasi sel tubuh secara maksimal</p>
     <div class="program-paket">
-      <div class="paket-item"><div class="paket-icon">☕</div><div class="paket-nama">Kopi Sevel</div></div>
+      <div class="paket-item"><img src="/products/kopi.png" alt="Kopi 7 Elemen" class="paket-image" /><div class="paket-nama">Kopi 7 Elemen</div></div>
       <div class="paket-plus">+</div>
-      <div class="paket-item"><div class="paket-icon">🦀</div><div class="paket-nama">Kapsul Gamat</div></div>
+      <div class="paket-item"><img src="/products/gamat.png" alt="Kapsul Gamat" class="paket-image" /><div class="paket-nama">Kapsul Gamat</div></div>
       <div class="paket-plus">+</div>
-      <div class="paket-item"><div class="paket-icon">🍯</div><div class="paket-nama">Madu Multiflora</div></div>
+      <div class="paket-item"><img src="/products/madu.png" alt="Madu Multiflora" class="paket-image" /><div class="paket-nama">Madu Multiflora</div></div>
       <div class="paket-plus">+</div>
-      <div class="paket-item"><div class="paket-icon">💧</div><div class="paket-nama">MHS</div></div>
+      <div class="paket-item"><img src="/products/mhs.png" alt="Minyak Herba Sinergi" class="paket-image" /><div class="paket-nama">MHS</div></div>
     </div>
     <a href="https://s.hni.id/7JXVILG" target="_blank" class="btn-emas">Pesan Program Pro Master →</a>
   </div>

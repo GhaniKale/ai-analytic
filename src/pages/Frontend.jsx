@@ -1,18 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import '../assets/frontend.css';
-import { getFallbackReply } from '../chatbot/fallbackReply';
+import FrontendNavbar from '../components/FrontendNavbar';
 
 export default function Frontend() {
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatHistory, setChatHistory] = useState([]);
-  const [chatInput, setChatInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [showNotif, setShowNotif] = useState(true);
-  const [quickRepliesVisible, setQuickRepliesVisible] = useState(true);
-
-  const messagesEndRef = useRef(null);
-
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -29,79 +19,6 @@ export default function Frontend() {
     };
   }, []);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatHistory, isTyping, chatOpen]);
-
-  const toggleChat = () => {
-    setChatOpen(!chatOpen);
-    setShowNotif(false);
-  };
-
-  const sendChatMessage = (text) => {
-    handleKirimChat(text);
-    if (!chatOpen) {
-      setChatOpen(true);
-      setShowNotif(false);
-    }
-  };
-
-  const handleKirimChat = async (overrideText = null) => {
-    const msg = overrideText !== null ? overrideText : chatInput.trim();
-    if (!msg) return;
-
-    if (overrideText === null) {
-      setChatInput('');
-    }
-    
-    setQuickRepliesVisible(false);
-    
-    const now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-    
-    const newUserMsg = { role: 'user', content: msg, time: now };
-    const newHistory = [...chatHistory, newUserMsg];
-    setChatHistory(newHistory);
-    setIsTyping(true);
-
-    try {
-      const chatEndpoint = import.meta.env.VITE_CHAT_ENDPOINT;
-
-      let reply = '';
-
-      if (chatEndpoint) {
-        const res = await fetch(chatEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: msg,
-            history: newHistory.map((m) => ({ role: m.role, content: m.content })),
-          }),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          reply = data?.reply ?? '';
-        }
-      }
-
-      if (!reply) {
-        await new Promise((r) => setTimeout(r, 700));
-        reply = getFallbackReply(msg);
-      }
-
-      setIsTyping(false);
-      setChatHistory(prev => [...prev, { role: 'assistant', content: reply, time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) }]);
-    } catch {
-      setIsTyping(false);
-      const reply = getFallbackReply(msg);
-      setChatHistory(prev => [...prev, { role: 'assistant', content: reply, time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) }]);
-    }
-  };
-
   const daftarMember = () => {
     const nama = document.getElementById('reg-nama').value;
     const wa = document.getElementById('reg-wa').value;
@@ -117,16 +34,7 @@ export default function Frontend() {
 
   return (
     <div className="frontend-container">
-      {/* NAVBAR */}
-      <nav className="frontend-nav">
-        <div className="nav-logo">HNI <span>Business</span></div>
-        <ul className="nav-links">
-          <li><Link to="/edukasi">Edukasi</Link></li>
-          <li><Link to="/rekrutmen">Rekrutmen</Link></li>
-          <li><Link to="/selling">Selling</Link></li>
-          <li><Link to="/rekrutmen" className="nav-cta">Daftar Sekarang</Link></li>
-        </ul>
-      </nav>
+      <FrontendNavbar title="Business" />
 
       {/* HERO */}
       <section className="hero">
@@ -184,40 +92,63 @@ export default function Frontend() {
         </div>
         <div className="produk-grid">
           <div className="produk-card reveal" onClick={() => sendChatMessage('Saya ingin tahu lebih lanjut tentang Kapsul Gamat')}>
-            <div className="produk-icon">🦀</div>
+            <div className="produk-image-container">
+              <img src="/products/gamat.png" alt="Kapsul Gamat" className="produk-image" />
+            </div>
+            <div className="produk-tag">Sendi & Tulang</div>
             <div className="produk-nama">Kapsul Gamat</div>
             <div className="produk-manfaat">Meredakan nyeri sendi, pengapuran lutut, dan mempercepat penyembuhan luka. Kaya kolagen tipe II dan omega-3.</div>
-            <div className="produk-tag">Sendi & Tulang</div>
+            <div className="produk-harga">Rp 130.000</div>
+            <div className="produk-btn">Beli / Tanya Detail</div>
           </div>
           <div className="produk-card reveal" onClick={() => sendChatMessage('Ceritakan tentang Madu Multiflora HNI')}>
-            <div className="produk-icon">🍯</div>
+            <div className="produk-image-container">
+              <img src="/products/madu.png" alt="Madu Multiflora" className="produk-image" />
+            </div>
+            <div className="produk-tag">Imunitas</div>
             <div className="produk-nama">Madu Multiflora</div>
             <div className="produk-manfaat">Menjaga daya tahan tubuh, sumber energi alami, dan melindungi dari radikal bebas. 100% madu murni.</div>
-            <div className="produk-tag">Imunitas</div>
+            <div className="produk-harga">Rp 100.000</div>
+            <div className="produk-btn">Beli / Tanya Detail</div>
           </div>
           <div className="produk-card reveal" onClick={() => sendChatMessage('Apa manfaat Minyak Herba Sinergi?')}>
-            <div className="produk-icon">💧</div>
+            <div className="produk-image-container">
+              <img src="/products/mhs.png" alt="Minyak Herba Sinergi" className="produk-image" />
+            </div>
+            <div className="produk-tag">P3K Keluarga</div>
             <div className="produk-nama">Minyak Herba Sinergi</div>
             <div className="produk-manfaat">Minyak P3K keluarga untuk pegal linu, masuk angin, memar, dan gigitan serangga. Praktis dibawa kemana saja.</div>
-            <div className="produk-tag">P3K Keluarga</div>
+            <div className="produk-harga">Rp 45.000</div>
+            <div className="produk-btn">Beli / Tanya Detail</div>
           </div>
           <div className="produk-card reveal" onClick={() => sendChatMessage('Saya mau tahu tentang Kopi Sevel Stamina')}>
-            <div className="produk-icon">☕</div>
-            <div className="produk-nama">Kopi Sevel Stamina</div>
-            <div className="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
+            <div className="produk-image-container">
+              <img src="/products/kopi.png" alt="Kopi Sevel Stamina" className="produk-image" />
+            </div>
             <div className="produk-tag">Stamina & Fokus</div>
+            <div className="produk-nama">Kopi 7 Elemen</div>
+            <div className="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
+            <div className="produk-harga">Rp 110.000</div>
+            <div className="produk-btn">Beli / Tanya Detail</div>
           </div>
           <div className="produk-card reveal" onClick={() => sendChatMessage('Apa itu EGM susu kambing HNI?')}>
-            <div className="produk-icon">🥛</div>
-            <div className="produk-nama">EGM Susu Kambing</div>
-            <div className="produk-manfaat">Nutrisi lengkap untuk tulang dan sendi. Sangat baik dikombinasikan dengan Kapsul Gamat untuk hasil optimal.</div>
+            <div className="produk-image-container">
+              <img src="/products/egm.png" alt="EGM Susu Kambing" className="produk-image" />
+            </div>
             <div className="produk-tag">Nutrisi Harian</div>
+            <div className="produk-nama">Etta Goat Milk</div>
+            <div className="produk-manfaat">Nutrisi lengkap untuk tulang dan sendi. Sangat baik dikombinasikan dengan Kapsul Gamat untuk hasil optimal.</div>
+            <div className="produk-harga">Rp 75.000</div>
+            <div className="produk-btn">Beli / Tanya Detail</div>
           </div>
           <div className="produk-card reveal" onClick={() => sendChatMessage('Apakah HNI punya produk lain selain yang disebutkan?')}>
-            <div className="produk-icon">🌿</div>
-            <div className="produk-nama">&amp; 95+ Produk Lainnya</div>
-            <div className="produk-manfaat">Spirulina, Bilberry, PGH, Sabun Herbal, Kosmetik Halal, dan masih banyak lagi. Semua halal bersertifikat MUI.</div>
+            <div className="produk-image-container">
+              <img src="/products/other.png" alt="Produk Lainnya" className="produk-image" style={{ objectFit: 'contain', padding: '20px' }} />
+            </div>
             <div className="produk-tag">Lihat Semua</div>
+            <div className="produk-nama">95+ Produk Lainnya</div>
+            <div className="produk-manfaat">Spirulina, Bilberry, PGH, Sabun Herbal, Kosmetik Halal, dan masih banyak lagi. Semua halal bersertifikat MUI.</div>
+            <div className="produk-btn" style={{marginTop: '16px'}}>Jelajahi Katalog</div>
           </div>
         </div>
       </section>
@@ -229,13 +160,13 @@ export default function Frontend() {
           <h2 className="program-title">Program Pro Master</h2>
           <p className="program-sub">Paket lengkap 1 bulan untuk regenerasi sel tubuh secara maksimal</p>
           <div className="program-paket">
-            <div className="paket-item"><div className="paket-icon">☕</div><div className="paket-nama">Kopi Sevel</div></div>
+            <div className="paket-item"><img src="/products/kopi.png" alt="Kopi 7 Elemen" className="paket-image" /><div className="paket-nama">Kopi 7 Elemen</div></div>
             <div className="paket-plus">+</div>
-            <div className="paket-item"><div className="paket-icon">🦀</div><div className="paket-nama">Kapsul Gamat</div></div>
+            <div className="paket-item"><img src="/products/gamat.png" alt="Kapsul Gamat" className="paket-image" /><div className="paket-nama">Kapsul Gamat</div></div>
             <div className="paket-plus">+</div>
-            <div className="paket-item"><div className="paket-icon">🍯</div><div className="paket-nama">Madu Multiflora</div></div>
+            <div className="paket-item"><img src="/products/madu.png" alt="Madu Multiflora" className="paket-image" /><div className="paket-nama">Madu Multiflora</div></div>
             <div className="paket-plus">+</div>
-            <div className="paket-item"><div className="paket-icon">💧</div><div className="paket-nama">MHS</div></div>
+            <div className="paket-item"><img src="/products/mhs.png" alt="Minyak Herba Sinergi" className="paket-image" /><div className="paket-nama">MHS</div></div>
           </div>
           <a href="https://s.hni.id/7JXVILG" target="_blank" rel="noopener noreferrer" className="btn-emas">Pesan Program Pro Master →</a>
         </div>
@@ -342,64 +273,6 @@ export default function Frontend() {
           <span>Produk bersertifikat BPOM &amp; MUI</span>
         </div>
       </footer>
-
-      {/* CHATBOT FAB */}
-      <button className="chat-fab" onClick={toggleChat} id="chat-fab">
-        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-        {showNotif && <div className="chat-notif">1</div>}
-      </button>
-
-      {/* CHAT WINDOW */}
-      <div className={`chat-window ${chatOpen ? 'open' : ''}`} id="chat-window">
-        <div className="chat-header">
-          <div className="chat-avatar">🌿</div>
-          <div className="chat-info">
-            <h4>Konsultan HNI</h4>
-            <p><span className="chat-status"></span>Online sekarang</p>
-          </div>
-        </div>
-        <div className="chat-messages" id="chat-messages">
-          <div className="msg bot">
-            Assalamu'alaikum! 👋 Saya konsultan kesehatan HNI. Ada yang bisa saya bantu hari ini?
-            <div className="msg-time">Baru saja</div>
-          </div>
-          {chatHistory.map((msg, idx) => (
-            <div key={idx} className={`msg ${msg.role === 'user' ? 'user' : 'bot'}`}>
-              {msg.content}
-              <div className="msg-time">{msg.time}</div>
-            </div>
-          ))}
-          {isTyping && (
-            <div className="typing">
-              <span></span><span></span><span></span>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-        {quickRepliesVisible && (
-          <div className="quick-replies" id="quick-replies">
-            <button className="quick-btn" onClick={() => sendChatMessage('Saya punya masalah nyeri lutut')}>Nyeri lutut</button>
-            <button className="quick-btn" onClick={() => sendChatMessage('Cara daftar jadi member HNI')}>Cara daftar</button>
-            <button className="quick-btn" onClick={() => sendChatMessage('Berapa harga produk HNI?')}>Info harga</button>
-          </div>
-        )}
-        <div className="chat-input-area">
-          <input 
-            type="text" 
-            className="chat-input" 
-            id="chat-input" 
-            placeholder="Ketik pesan..." 
-            value={chatInput}
-            onChange={(e) => setChatInput(e.target.value)}
-            onKeyPress={(e) => {
-              if(e.key === 'Enter') handleKirimChat();
-            }}
-          />
-          <button className="chat-send" onClick={() => handleKirimChat()}>
-            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

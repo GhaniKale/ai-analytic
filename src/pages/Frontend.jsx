@@ -126,7 +126,7 @@ export default function Frontend() {
               <img src="/products/kopi.png" alt="Kopi Sevel Stamina" className="produk-image" />
             </div>
             <div className="produk-tag">Stamina & Fokus</div>
-            <div className="produk-nama">Kopi 7 Elemen</div>
+            <div className="produk-nama">Sevel Stamina</div>
             <div className="produk-manfaat">Kopi herbal 7 elemen dengan jahe merah, pasak bumi, dan daun kelor. Tanpa gula buatan, pakai stevia.</div>
             <div className="produk-harga">Rp 110.000</div>
             <div className="produk-btn">Beli / Tanya Detail</div>
@@ -160,7 +160,7 @@ export default function Frontend() {
           <h2 className="program-title">Program Pro Master</h2>
           <p className="program-sub">Paket lengkap 1 bulan untuk regenerasi sel tubuh secara maksimal</p>
           <div className="program-paket">
-            <div className="paket-item"><img src="/products/kopi.png" alt="Kopi 7 Elemen" className="paket-image" /><div className="paket-nama">Kopi 7 Elemen</div></div>
+            <div className="paket-item"><img src="/products/kopi.png" alt="Sevel Stamina" className="paket-image" /><div className="paket-nama">Sevel Stamina</div></div>
             <div className="paket-plus">+</div>
             <div className="paket-item"><img src="/products/gamat.png" alt="Kapsul Gamat" className="paket-image" /><div className="paket-nama">Kapsul Gamat</div></div>
             <div className="paket-plus">+</div>
